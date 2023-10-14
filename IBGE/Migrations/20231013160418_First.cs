@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -14,7 +15,8 @@ namespace IBGE.Migrations
                 name: "IBGE",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CodeIbge = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
                     State = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     City = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
                 },

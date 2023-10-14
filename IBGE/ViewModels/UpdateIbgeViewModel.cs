@@ -1,15 +1,19 @@
-﻿using IBGE.Models;
+﻿using IBGE.Contracts;
+using IBGE.Models;
 
 namespace IBGE.ViewModels
 {
-    public class UpdateIbgeViewModel
+    public class UpdateIbgeViewModel : ViewModelBase
     {
+        public string CodeIbge { get; set; }
         public string State { get; set; }
         public string City { get; set; }
 
         public Ibge MapTo()
         {
-            return new Ibge(State, City);
+            AddNotifications(new UpdateIbgeContract(this));
+
+            return new Ibge(CodeIbge, State, City);
         }
     }
 }

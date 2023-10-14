@@ -1,16 +1,23 @@
-﻿using IBGE.Models;
+﻿using Flunt.Notifications;
+using IBGE.Contracts;
+using IBGE.Models;
+using System.Text.Json.Serialization;
 
 namespace IBGE.ViewModels
 {
-    public class CreateIbgeViewModel
+    public class CreateIbgeViewModel : ViewModelBase
     {
-        public string Id { get; set; }
+        [JsonIgnore]
+        public Guid Id { get; set; }
+        public string CodeIbge { get; set; }
         public string State { get; set; }
         public string City { get; set; }
 
         public Ibge MapTo()
         {
-            return new Ibge(Id, State, City);
+            AddNotifications(new CreateIbgeContract(this));
+
+            return new Ibge(CodeIbge, State, City);
         }
     }
 }
