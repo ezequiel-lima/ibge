@@ -13,13 +13,13 @@ namespace IBGE.Endpoints
             {
                 var ibges = await context.Ibges.AsNoTracking().Where(x => x.City == city).ToListAsync();
                 return ibges is not null && ibges.Count > 0 ? Results.Ok(ibges) : Results.NotFound();
-            }).Produces<List<Ibge>>();
+            }).Produces<List<Ibge>>().AllowAnonymous();
 
             app.MapGet("v1/ibges/state", async (AppDbContext context, string state) =>
             {
                 var ibges = await context.Ibges.AsNoTracking().Where(x => x.State == state).ToListAsync();
                 return ibges is not null && ibges.Count > 0 ? Results.Ok(ibges) : Results.NotFound();
-            }).Produces<List<Ibge>>();
+            }).Produces<List<Ibge>>().AllowAnonymous();
 
             app.MapGet("v1/ibges/codeIbge", async (AppDbContext context, string codeIbge) =>
             {
@@ -27,7 +27,7 @@ namespace IBGE.Endpoints
                     is Ibge ibge
                         ? Results.Ok(ibge)
                         : Results.NotFound();
-            }).Produces<Ibge>();
+            }).Produces<Ibge>().RequireAuthorization();
 
             app.MapPost("v1/ibges", async (AppDbContext context, CreateIbgeViewModel model) =>
             {

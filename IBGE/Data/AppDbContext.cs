@@ -7,6 +7,7 @@ namespace IBGE.Data
     public class AppDbContext : DbContext
     {
         public DbSet<Ibge> Ibges { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,6 +17,7 @@ namespace IBGE.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new IbgeMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
         }
     }
 }
