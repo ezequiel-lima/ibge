@@ -1,10 +1,7 @@
 using IBGE;
 using IBGE.Data;
 using IBGE.Endpoints;
-using IBGE.Services;
-using IBGE.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -21,25 +18,8 @@ app.UseAuthorization();
 
 #region Endpoints
 
-IbgeEndpoints.Map(app);
-
-app.MapPost("/login", async (AppDbContext context, LoginViewModel model) =>
-{
-    var user = await context.Users.FirstOrDefaultAsync(x => x.Email == model.Email && x.Password == model.Password);
-
-    if (user is null)
-        return Results.NotFound(new { Message = "Invalid email or password" });
-
-    var token = TokenService.GenerateToken(user);
-
-    user.CleanPassword();
-
-    return Results.Ok(new
-    {
-        user,
-        token
-    });
-});
+IbgeEndpoint.Map(app);
+AccountEndpoint.Map(app);
 
 #endregion
 

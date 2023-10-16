@@ -1,5 +1,4 @@
-﻿using Flunt.Notifications;
-using IBGE.Contracts;
+﻿using IBGE.Contracts;
 using IBGE.Models;
 using System.Text.Json.Serialization;
 
