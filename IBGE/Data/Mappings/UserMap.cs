@@ -11,9 +11,14 @@ namespace IBGE.Data.Mappings
             builder.ToTable("User");
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Email)
-                .IsRequired()
-                .HasMaxLength(150);
+            builder.OwnsOne(x => x.Email, email =>
+            {
+                email.Property(e => e.Address)
+                    .HasColumnName("Email")
+                    .IsRequired();
+
+                email.Ignore(e => e.Notifications);
+            });
 
             builder.Property(x => x.Password)
                 .IsRequired()

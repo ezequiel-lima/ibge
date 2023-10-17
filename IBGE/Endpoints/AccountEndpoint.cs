@@ -13,6 +13,13 @@ namespace IBGE.Endpoints
         {
             app.MapPost("v1/accounts", async (AppDbContext context, RegisterViewModel model) =>
             {
+                if (!model.Email.IsValid)
+                    return Results.BadRequest(model.Email.Notifications);
+
+                var existingUser = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Address == model.Email.Address);
+                if (existingUser != null)
+                    return Results.BadRequest(new { Message = "This email has already been registered" });
+
                 var password = PasswordGenerator.Generate(10);
 
                 var user = new User(model.Email, PasswordHasher.Hash(password));
@@ -29,7 +36,10 @@ namespace IBGE.Endpoints
 
             app.MapPost("v1/login", async (AppDbContext context, LoginViewModel model) =>
             {
-                var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == model.Email);
+                if (!model.Email.IsValid)
+                    return Results.BadRequest(model.Email.Notifications);
+
+                var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email.Address == model.Email.Address);
 
                 if (user is null)
                     return Results.NotFound(new { Message = "Invalid email or password" });
