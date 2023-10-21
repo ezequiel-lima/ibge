@@ -66,6 +66,18 @@ void ConfigureServices(WebApplicationBuilder builder)
                 new string [] {}
             }
         });
+
+        x.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "IBGE.API",
+            Version = "v1",
+            Contact = new OpenApiContact
+            {
+                Name = "João Ezequiel Lima",
+                Email = "ezequiel.lima.br@gmail.com",
+                Url = new Uri("https://www.linkedin.com/in/joao-ezequiel-lima/")
+            }
+        });
     });
 
     #endregion

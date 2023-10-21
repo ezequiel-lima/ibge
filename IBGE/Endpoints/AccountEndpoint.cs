@@ -32,7 +32,14 @@ namespace IBGE.Endpoints
                     user.Email,
                     password
                 });
-            }).AllowAnonymous();
+            })
+                .WithTags("Autenticação e Autorização")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Cadastra uma conta",
+                    Description = "Regista uma nova conta de manager"
+                })
+                .AllowAnonymous();
 
             app.MapPost("v1/login", async (AppDbContext context, LoginViewModel model) =>
             {
@@ -56,7 +63,14 @@ namespace IBGE.Endpoints
                     user,
                     token
                 });
-            }).AllowAnonymous();
+            })
+                .WithTags("Autenticação e Autorização")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Realiza a autenticação de um usuário",
+                    Description = "Gera um token de autenticação e retorna os detalhes do usuário"
+                })
+                .AllowAnonymous();
         }
     }
 }

@@ -13,13 +13,29 @@ namespace IBGE.Endpoints
             {
                 var ibges = await context.Ibges.AsNoTracking().Where(x => x.City == city).ToListAsync();
                 return NotNullOrEmpty(ibges) ? Results.Ok(ibges) : Results.NotFound();
-            }).Produces<List<Ibge>>().AllowAnonymous();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Consultar informações de localidades por Cidade",
+                    Description = "Obtenha informações detalhadas de localidades informando o nome da Cidade no parâmetro 'city'."
+                })
+                .Produces<List<Ibge>>(StatusCodes.Status200OK)
+                .AllowAnonymous();
 
             app.MapGet("v1/ibges/state", async (AppDbContext context, string state) =>
             {
                 var ibges = await context.Ibges.AsNoTracking().Where(x => x.State == state).ToListAsync();
                 return NotNullOrEmpty(ibges) ? Results.Ok(ibges) : Results.NotFound();
-            }).Produces<List<Ibge>>().AllowAnonymous();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Consultar informações de localidades por Estado",
+                    Description = "Obtenha informações detalhadas de localidades informando o nome do Estado no parâmetro 'state'."
+                })
+                .Produces<List<Ibge>>(StatusCodes.Status200OK)
+                .AllowAnonymous();
 
             app.MapGet("v1/ibges/codeIbge", async (AppDbContext context, string codeIbge) =>
             {
@@ -27,7 +43,15 @@ namespace IBGE.Endpoints
                     is Ibge ibge
                         ? Results.Ok(ibge)
                         : Results.NotFound();
-            }).Produces<Ibge>().AllowAnonymous();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Consultar informações de uma localidade por código Ibge",
+                    Description = "Obtenha informações detalhadas de uma localidade específica informando o Código Ibge no parâmetro 'codeIbge'.",
+                })
+                .Produces<Ibge>(StatusCodes.Status200OK)
+                .AllowAnonymous();
 
             app.MapPost("v1/ibges", async (AppDbContext context, CreateIbgeViewModel model) =>
             {
@@ -40,7 +64,14 @@ namespace IBGE.Endpoints
                 await context.SaveChangesAsync();
 
                 return Results.Created($"v1/ibges/{ibge.Id}", ibge);
-            }).RequireAuthorization();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Cadastra informações de uma localidade",
+                    Description = "Cadastra informações detalhadas de uma localidade específica"
+                })
+                .RequireAuthorization();
 
             app.MapPut("v1/ibges", async (AppDbContext context, string codeIbge, UpdateIbgeViewModel model) =>
             {
@@ -58,7 +89,14 @@ namespace IBGE.Endpoints
                 await context.SaveChangesAsync();
 
                 return Results.NoContent();
-            }).RequireAuthorization();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Altera informações de uma localidade",
+                    Description = "Altera informações detalhadas de uma localidade específica já cadastrada"
+                })
+                .RequireAuthorization();
 
             app.MapDelete("v1/ibges/id", async (AppDbContext context, Guid id) =>
             {
@@ -70,7 +108,14 @@ namespace IBGE.Endpoints
                 }
 
                 return Results.NotFound();
-            }).RequireAuthorization();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Deleta informações de uma localidade por ID",
+                    Description = "Deleta informações detalhadas de uma localidade específica já cadastrada"
+                })
+                .RequireAuthorization();
         }
 
         private static bool NotNullOrEmpty(List<Ibge>? ibges)
