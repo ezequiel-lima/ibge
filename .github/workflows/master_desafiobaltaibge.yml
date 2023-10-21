@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'desafiobaltaibge'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0FC4DC1653FA47BB980BED66D44E3E4B }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_45CFBE3F115C4DC3A5C0D122BA46CB7C }}
           package: .
