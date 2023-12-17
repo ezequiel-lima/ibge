@@ -9,6 +9,20 @@ namespace IBGE.Endpoints
     {
         public static void Map(WebApplication app)
         {
+            app.MapGet("v1/ibges/", async (AppDbContext context, int skip, int take) =>
+            {
+                var ibges = await context.Ibges.AsNoTracking().Skip(skip * take).Take(take).OrderBy(x => x.State).ToListAsync();
+                return NotNullOrEmpty(ibges) ? Results.Ok(ibges) : Results.NotFound();
+            })
+                .WithTags("Localidades")
+                .WithOpenApi(operation => new(operation)
+                {
+                    Summary = "Consultar informações de localidades paginada",
+                    Description = "Obtenha informações detalhadas de localidades."
+                })
+                .Produces<List<Ibge>>(StatusCodes.Status200OK)
+                .AllowAnonymous();
+
             app.MapGet("v1/ibges/city", async (AppDbContext context, string city) =>
             {
                 var ibges = await context.Ibges.AsNoTracking().Where(x => x.City == city).ToListAsync();
