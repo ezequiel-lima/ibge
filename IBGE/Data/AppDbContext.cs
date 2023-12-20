@@ -11,7 +11,7 @@ namespace IBGE.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = DESKTOP-HP2UQRQ\\SQLEXPRESS; Database = IbgeDataBase; Trusted_Connection = True; Encrypt = False");
+            optionsBuilder.UseSqlServer("Server=tcp:desafioblazor.database.windows.net,1433;Initial Catalog=DesafioDataBase;Persist Security Info=False;User ID=desafioblazor;Password=Quiel@2021#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
